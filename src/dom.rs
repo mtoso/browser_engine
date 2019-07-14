@@ -1,13 +1,14 @@
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 
+#[derive(PartialEq, Eq, Clone)]
 pub struct Node {
-    children: Vec<Node>,
-    node_type: NodeType,
+    pub children: Vec<Node>,
+    pub node_type: NodeType,
 }
 
 impl Node {
-    fn new(node_type: NodeType, children: Vec<Node>) -> Node {
+    pub fn new(node_type: NodeType, children: Vec<Node>) -> Node {
         Node {
             node_type,
             children,
@@ -15,30 +16,32 @@ impl Node {
     }
 }
 
+#[derive(PartialEq, Eq, Clone)]
 pub enum NodeType {
     Text(String),
     Element(ElementData),
     Comment(String),
 }
 
+#[derive(PartialEq, Eq, Clone)]
 pub struct ElementData {
-    tag_name: String,
+    pub tag_name: String,
     attributes: AttrMap,
 }
 
 impl ElementData {
-    fn new(tag_name: String, attributes: AttrMap) -> ElementData {
+    pub fn new(tag_name: String, attributes: AttrMap) -> ElementData {
         ElementData {
             tag_name,
             attributes,
         }
     }
 
-    fn get_id(&self) -> Option<&String> {
+    pub fn get_id(&self) -> Option<&String> {
         self.attributes.get("id")
     }
 
-    fn get_classes(&self) -> HashSet<&str> {
+    pub fn get_classes(&self) -> HashSet<&str> {
         match self.attributes.get("class") {
             Some(s) => s.split(' ').collect(),
             None => HashSet::new(),
